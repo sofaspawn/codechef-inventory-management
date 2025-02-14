@@ -3,7 +3,7 @@
 
 ## Technologies being used:
 - Language: Rust
-- Web-Framework: Rocket
+- Framework: Rocket
 - Database: In-Memory
 
 ## FEATURES:
@@ -11,12 +11,13 @@
 2. Add new items to the inventory.
 3. Check for duplicate items before adding them to the database.
 4. Session based authentication.
-5. Can update items in your inventory
+5. Update items in your inventory
+6. Delete items in your inventory
 
 ## TODO:
 - [x] implement user sign up and log in using ~~JWT~~ session-based auth
 - [x] verified user auth functionality using POSTMAN
-- [ ] Implement Get specific ID, Update and Delete functionalities
+- [x] Implement Get specific ID, Update and Delete functionalities
 - [ ] Add database to the project
 - [ ] Hash the user password **[If time permits]**
 - [ ] Implement fuzzy searching for items **[If time permits]** 
