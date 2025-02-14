@@ -19,6 +19,7 @@
 - [x] verified user auth functionality using POSTMAN
 - [x] Implement Get specific ID, Update and Delete functionalities
 - [ ] Add database to the project
+- [ ] Organize the README
 - [ ] Hash the user password **[If time permits]**
 - [ ] Implement fuzzy searching for items **[If time permits]** 
 - [ ] Rate Limiting middleware **[If time permits]** 

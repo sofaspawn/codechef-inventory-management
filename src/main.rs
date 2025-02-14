@@ -1,7 +1,7 @@
 #[macro_use] extern crate rocket;
 
 use rocket::serde::{Serialize, Deserialize, json::Json};
-use rocket::State;
+use rocket::{Data, Request, State};
 use rocket::http::{Cookie, CookieJar};
 use std::sync::Mutex;
 use std::collections::HashMap;
