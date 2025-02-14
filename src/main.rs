@@ -53,6 +53,15 @@ fn logout(cookies: &CookieJar) -> Redirect {
     Redirect::to("/")
 }
 
+#[get("/me")]
+fn me(cookies: &CookieJar) -> String{
+    if let Some(cookie) = cookies.get("username"){
+        format!("Currently logged in as: {}", cookie.value().to_string())
+    } else {
+        "Not logged in".to_string()
+    }
+}
+
 #[get("/items")]
 fn get_items(inventory: &State<Inventory>, cookies: &CookieJar) -> Result<String, String> {
     if let Some(cookie) = cookies.get("username"){
