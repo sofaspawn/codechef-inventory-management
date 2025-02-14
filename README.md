@@ -10,7 +10,8 @@
 1. Get all present items in the inventory in JSON format.
 2. Add new items to the inventory.
 3. Check for duplicate items before adding them to the database.
-4. Session based authentication done.
+4. Session based authentication.
+5. Can update items in your inventory
 
 ## TODO:
 - [x] implement user sign up and log in using ~~JWT~~ session-based auth
