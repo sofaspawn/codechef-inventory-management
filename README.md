@@ -12,6 +12,6 @@
 3. Check for duplicate items before adding them to the database.
 
 ## TODO:
-- Implement Get specific ID, Update and Delete functionalities
-- Add database to the project
-- Implement fuzzy searching for items **[If time permits]** 
+-[ ] Implement Get specific ID, Update and Delete functionalities
+-[ ] Add database to the project
+-[ ] Implement fuzzy searching for items **[If time permits]** 
