@@ -111,10 +111,31 @@ fn create_item(inventory: &State<Inventory>, new_item: Json<Item>, cookies: &Coo
     }
 }
 
+#[put("/items/<id>", format="json", data="<updated_item>")]
+fn update_by_id(inventory: &State<Inventory>, updated_item: Json<Item>, cookies: &CookieJar, id:u32)->Result<String, String>{
+    if let Some(cookie) = cookies.get("username"){
+        let username = cookie.value().to_string();
+        if let Some(items) = inventory.lock().unwrap().get_mut(&username){
+            if let Some(item) = items.iter_mut().find(|i| i.id==id) {
+                item.name = updated_item.name.clone();
+                item.quantity = updated_item.quantity;
+
+                return Ok(serde_json::to_string(item).unwrap())
+            } else {
+                return Err(format!("Item with id:{id} not present"));
+            }
+        } else {
+            return Err("No items for the present user".to_string());
+        }
+    } else {
+        return Err("You must be logged in to updated item.".to_string());
+    }
+}
+
 #[launch]
 fn rocket() -> _ {
     rocket::build()
         .manage(Mutex::new(HashMap::<String, Vec::<Item>>::new()))  // in-memory storage
         .manage(Mutex::new(Vec::<User>::new()))  // in-memory storage
-        .mount("/", routes![get_items, get_items_by_id, create_item, signup, login, logout, me])
+        .mount("/", routes![get_items, get_items_by_id, create_item, update_by_id, signup, login, logout, me])
 }
