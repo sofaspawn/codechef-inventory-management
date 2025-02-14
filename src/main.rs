@@ -2,7 +2,6 @@
 
 use rocket::serde::{Serialize, Deserialize, json::Json};
 use rocket::State;
-use rocket::response::Redirect;
 use rocket::http::{Cookie, CookieJar};
 use std::sync::Mutex;
 use std::collections::HashMap;
