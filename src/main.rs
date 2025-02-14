@@ -24,11 +24,11 @@ struct User {
 
 impl User{
     fn hash(&self) -> Self {
-        let hashed_username = hash(&self.username, DEFAULT_COST).unwrap();
+        //let hashed_username = hash(&self.username, DEFAULT_COST).unwrap();
         let hashed_password = hash(&self.password, DEFAULT_COST).unwrap();
 
         return Self{
-            username: hashed_username,
+            username: self.username.clone(),
             password: hashed_password
         }
     }
@@ -52,7 +52,7 @@ fn signup(user: Json<User>, user_store: &State<UserStore>)->String{
 fn login(user_store:&State<UserStore>, user: Json<User>, cookies: &CookieJar)->String{
     let users = user_store.lock().unwrap();
     if let Some(u) = users.iter().find(|u| {
-            verify(&user.username, &u.username).unwrap_or(false) &&
+            user.username==u.username &&
             verify(&user.password, &u.password).unwrap_or(false)
     }){
         cookies.add(Cookie::new("username", u.username.clone()));
@@ -155,12 +155,12 @@ fn delete_by_id(inventory: &State<Inventory>, id: u32, cookies: &CookieJar)->Res
         let username = cookie.value().to_string();
         if let Some(items) = inventory.lock().unwrap().get_mut(&username){
             items.retain(|i| i.id!=id);
-            return Ok(format!("Item with id:{id}, successfully deleted."));
+            Ok(format!("Item with id:{id}, successfully deleted."))
         } else {
-            return Err(format!("Could not retrieve the item with id:{id}"));
+            Err(format!("Could not retrieve the item with id:{id}"))
         }
     } else {
-        return Err("You must be logged in!".to_string());
+        Err("You must be logged in!".to_string())
     }
 }
 
