@@ -1,11 +1,13 @@
 #[macro_use] extern crate rocket;
 
 use rocket::serde::{Serialize, Deserialize, json::Json};
-use rocket::{Data, Request, State};
+use rocket::{Config, Data, Request, State};
 use rocket::http::{Cookie, CookieJar};
 use std::sync::Mutex;
 use std::collections::HashMap;
 use serde_json;
+
+use bcrypt::{hash, verify, DEFAULT_COST};
 
 #[derive(Serialize, Deserialize, Clone)]
 struct Item {
@@ -20,6 +22,18 @@ struct User {
     password: String,
 }
 
+impl User{
+    fn hash(&self) -> Self {
+        let hashed_username = hash(&self.username, DEFAULT_COST).unwrap();
+        let hashed_password = hash(&self.password, DEFAULT_COST).unwrap();
+
+        return Self{
+            username: hashed_username,
+            password: hashed_password
+        }
+    }
+}
+
 type Inventory = Mutex<HashMap<String, Vec<Item>>>;
 type UserStore = Mutex<Vec<User>>;
 
@@ -29,14 +43,18 @@ fn signup(user: Json<User>, user_store: &State<UserStore>)->String{
     if users.iter().any(|u| u.username==user.username) {
         return "Username already exists".to_string();
     }
-    users.push(user.into_inner());
+    let safe_user = user.hash();
+    users.push(safe_user);
     "User created successfully!".to_string()
 }
 
 #[post("/login", format="json", data="<user>")]
 fn login(user_store:&State<UserStore>, user: Json<User>, cookies: &CookieJar)->String{
     let users = user_store.lock().unwrap();
-    if let Some(u) = users.iter().find(|u| u.username == user.username && u.password==user.password){
+    if let Some(u) = users.iter().find(|u| {
+            verify(&user.username, &u.username).unwrap_or(false) &&
+            verify(&user.password, &u.password).unwrap_or(false)
+    }){
         cookies.add(Cookie::new("username", u.username.clone()));
         "Login successful".to_string()
     } else {
