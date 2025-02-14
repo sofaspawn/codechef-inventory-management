@@ -1,5 +1,20 @@
 # 🚀 Codechef Inventory Management
 **Project made as part of the recruitment process for Codechef.**
+- (skipped a lab to make this work T_T )
+
+## To reproduce on your machine:
+1. Clone the repo
+```
+$ git clone https://github.com/sofaspawn/codechef-inventory-management/
+```
+2. Change the working directory
+```
+$ cd codechef-inventory-management
+```
+3. Compile and run the release binary
+```
+$ cargo run --release
+```
 
 ## 🛠️ Technologies Used
 - **Language**: Rust 🦀
