@@ -44,3 +44,41 @@
 - [ ] **Integrate a persistent database** 🗃️ *(Planned: PostgreSQL)*
 - [ ] **Implement fuzzy searching for items** 🔍 *(If time permits)*
 - [ ] **Rate Limiting Middleware** ⏳ *(If time permits)*  
+
+## 📸 Proof-of-Work ScreenShots (Postman):
+
+<div align="center">  
+  <table>  
+    <tr>  
+      <td><img src="assets/signup.png" alt="User Signup" width="400"></td>  
+      <td><img src="assets/login.png" alt="User Login" width="400"></td>  
+    </tr>  
+    <tr align="center">  
+      <td><b>Signup Endpoint</b></td>  
+      <td><b>Login Endpoint</b></td>  
+    </tr>  
+    <tr>  
+      <td><img src="assets/get_items.png" alt="Get Items" width="400"></td>  
+      <td><img src="assets/get_with_id.png" alt="Get Item with ID" width="400"></td>  
+    </tr>  
+    <tr align="center">  
+      <td><b>Fetching Inventory</b></td>  
+      <td><b>Fetching an Item with ID</b></td>  
+    </tr>  
+    <tr>  
+      <td><img src="assets/create_items.png" alt="Adding a new Item" width="400"></td>  
+      <td><img src="assets/update_with_id.png" alt="Update items with ID" width="400"></td>  
+    </tr>  
+    <tr align="center">  
+      <td><b>Adding new items</b></td>  
+      <td><b>Updating existing items</b></td>  
+    </tr>  
+    <tr>  
+      <td><img src="assets/delete.png" alt="Deleting items" width="400"></td>  
+    </tr>  
+    <tr align="center">  
+      <td><b>Deleting items with ID</b></td>  
+    </tr>  
+  </table>  
+</div>  
+
