@@ -12,6 +12,7 @@
 3. Check for duplicate items before adding them to the database.
 
 ## TODO:
+- [ ] implement user sign up and log in using JWT
 - [ ] Implement Get specific ID, Update and Delete functionalities
 - [ ] Add database to the project
 - [ ] Implement fuzzy searching for items **[If time permits]** 
