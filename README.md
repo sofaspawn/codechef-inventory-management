@@ -1,26 +1,46 @@
-# Codechef Inventory Management
-(Project made as a part of the recruitment process for Codechef.)
+# 🚀 Codechef Inventory Management
+**Project made as part of the recruitment process for Codechef.**
 
-## Technologies being used:
-- Language: Rust
-- Framework: Rocket
-- Database: In-Memory
+## 🛠️ Technologies Used
+- **Language**: Rust 🦀
+- **Framework**: Rocket 🚀
+- **Database**: In-Memory (Planned: Persistent Database)
 
-## FEATURES:
-1. Get all present items in the inventory in JSON format.
-2. Add new items to the inventory.
-3. Check for duplicate items before adding them to the database.
-4. Session based authentication.
-5. Update items in your inventory
-6. Delete items in your inventory
-7. User login info is securely hashed
+## 📌 Features
+✅ **Inventory Management**
+- Retrieve all items in the inventory (JSON format).
+- Add new items to the inventory.
+- Prevent duplicate items before adding them.
+- Update or delete items in your inventory.
 
-## TODO:
-- [x] implement user sign up and log in using ~~JWT~~ session-based auth
-- [x] verified user auth functionality using POSTMAN
-- [x] Implement Get specific ID, Update and Delete functionalities
-- [x] Hash the user password
-- [ ] Organize the README
-- [ ] Add database to the project
-- [ ] Implement fuzzy searching for items **[If time permits]** 
-- [ ] Rate Limiting middleware **[If time permits]** 
+✅ **User Authentication**
+- Secure, session-based authentication.
+- Passwords are securely hashed using **bcrypt**.
+
+✅ **User Experience Enhancements**
+- Authorization required for inventory actions.
+- Seamless login/logout with cookies.
+
+## 📜 API Endpoints
+| Method | Endpoint             | Description |
+|--------|----------------------|-------------|
+| `POST` | `/signup`            | Register a new user |
+| `POST` | `/login`             | Authenticate a user |
+| `GET`  | `/logout`            | Log out a user |
+| `GET`  | `/whoami`            | Get logged-in user info |
+| `GET`  | `/items`             | Fetch all inventory items |
+| `GET`  | `/items/<id>`        | Retrieve item by ID |
+| `POST` | `/items`             | Add a new item |
+| `PUT`  | `/items/update/<id>` | Update an item by ID |
+| `PUT`  | `/items/delete/<id>` | Remove an item by ID |
+
+## ✅ Completed Tasks
+- [x] Implement user sign-up and login (**Session-Based Auth**).
+- [x] Authenticate & test API using **Postman**.
+- [x] Implement **CRUD operations** for inventory items.
+- [x] Secure password hashing with **bcrypt**.
+
+## 🚀 Upcoming Enhancements
+- [ ] **Integrate a persistent database** 🗃️ *(Planned: PostgreSQL)*
+- [ ] **Implement fuzzy searching for items** 🔍 *(If time permits)*
+- [ ] **Rate Limiting Middleware** ⏳ *(If time permits)*  
