@@ -14,6 +14,7 @@
 
 ## TODO:
 - [x] implement user sign up and log in using ~~JWT~~ session-based auth
+- [x] verified user auth functionality using POSTMAN
 - [ ] Implement Get specific ID, Update and Delete functionalities
 - [ ] Add database to the project
 - [ ] Implement fuzzy searching for items **[If time permits]** 
