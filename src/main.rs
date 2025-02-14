@@ -6,7 +6,6 @@ use rocket::response::Redirect;
 use rocket::http::{Cookie, CookieJar};
 use std::sync::Mutex;
 use std::collections::HashMap;
-use std::path::Component::ParentDir;
 use serde_json;
 
 #[derive(Serialize, Deserialize, Clone)]
@@ -25,18 +24,17 @@ struct User {
 type Inventory = Mutex<HashMap<String, Vec<Item>>>;
 type UserStore = Mutex<Vec<User>>;
 
-#[post("/signup"), format="json", data="<user>"]
+#[post("/signup", format="json", data="<user>")]
 fn signup(user: Json<User>, user_store: &State<UserStore>)->String{
     let mut users = user_store.lock().unwrap();
     if users.iter().any(|u| u.username==user.username) {
         return "Username already exists".to_string();
     }
-    let nu = &user.username;
     users.push(user.into_inner());
-    format!("User {}, created successfully!", nu)
+    "User created successfully!".to_string()
 }
 
-#[post("/login"), format="json", data="<user>"]
+#[post("/login", format="json", data="<user>")]
 fn login(user_store:&State<UserStore>, user: Json<User>, cookies: &CookieJar)->String{
     let users = user_store.lock().unwrap();
     if let Some(u) = users.iter().find(|u| u.username == user.username && u.password==user.password){
@@ -47,7 +45,7 @@ fn login(user_store:&State<UserStore>, user: Json<User>, cookies: &CookieJar)->S
     }
 }
 
-#[post("/logout")]
+#[get("/logout")]
 fn logout(cookies: &CookieJar) -> Redirect {
     cookies.remove(Cookie::from("username"));
     Redirect::to("/")
@@ -98,6 +96,7 @@ fn create_item(inventory: &State<Inventory>, new_item: Json<Item>, cookies: &Coo
 #[launch]
 fn rocket() -> _ {
     rocket::build()
-        .manage(Mutex::new(Vec::<Item>::new()))  // in-memory storage
-        .mount("/", routes![get_items, create_item])
+        .manage(Mutex::new(HashMap::<String, Vec::<Item>>::new()))  // in-memory storage
+        .manage(Mutex::new(Vec::<User>::new()))  // in-memory storage
+        .mount("/", routes![get_items, create_item, signup, login, logout, me])
 }
