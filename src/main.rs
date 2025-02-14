@@ -46,9 +46,9 @@ fn login(user_store:&State<UserStore>, user: Json<User>, cookies: &CookieJar)->S
 }
 
 #[get("/logout")]
-fn logout(cookies: &CookieJar) -> Redirect {
+fn logout(cookies: &CookieJar){
     cookies.remove(Cookie::from("username"));
-    Redirect::to("/")
+    //Redirect::to("/")
 }
 
 #[get("/me")]
