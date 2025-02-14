@@ -111,7 +111,7 @@ fn create_item(inventory: &State<Inventory>, new_item: Json<Item>, cookies: &Coo
     }
 }
 
-#[put("/items/<id>", format="json", data="<updated_item>")]
+#[put("/items/update/<id>", format="json", data="<updated_item>")]
 fn update_by_id(inventory: &State<Inventory>, updated_item: Json<Item>, cookies: &CookieJar, id:u32)->Result<String, String>{
     if let Some(cookie) = cookies.get("username"){
         let username = cookie.value().to_string();
@@ -132,10 +132,25 @@ fn update_by_id(inventory: &State<Inventory>, updated_item: Json<Item>, cookies:
     }
 }
 
+#[put("/items/delete/<id>")]
+fn delete_by_id(inventory: &State<Inventory>, id: u32, cookies: &CookieJar)->Result<String, String>{
+    if let Some(cookie) = cookies.get("username"){
+        let username = cookie.value().to_string();
+        if let Some(items) = inventory.lock().unwrap().get_mut(&username){
+            items.retain(|i| i.id!=id);
+            return Ok(format!("Item with id:{id}, successfully deleted."));
+        } else {
+            return Err(format!("Could not retrieve the item with id:{id}"));
+        }
+    } else {
+        return Err("You must be logged in!".to_string());
+    }
+}
+
 #[launch]
 fn rocket() -> _ {
     rocket::build()
         .manage(Mutex::new(HashMap::<String, Vec::<Item>>::new()))  // in-memory storage
         .manage(Mutex::new(Vec::<User>::new()))  // in-memory storage
-        .mount("/", routes![get_items, get_items_by_id, create_item, update_by_id, signup, login, logout, me])
+        .mount("/", routes![get_items, get_items_by_id, create_item, update_by_id, delete_by_id, signup, login, logout, me])
 }
