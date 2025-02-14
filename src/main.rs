@@ -75,6 +75,24 @@ fn get_items(inventory: &State<Inventory>, cookies: &CookieJar) -> Result<String
     }
 }
 
+#[get("/items/<id>")]
+fn get_items_by_id(cookies: &CookieJar, id: u32, inventory: &State<Inventory>)->Result<String, String>{
+    if let Some(cookie) = cookies.get("username"){
+        let username = cookie.value().to_string();
+        if let Some(items) = inventory.lock().unwrap().get(&username){
+            if let Some(item) = items.iter().find(|i| i.id==id){
+                Ok(serde_json::to_string(item).unwrap())
+            } else {
+                Err(format!("Item with id:{id} not found"))
+            }
+        } else {
+            Err("No items found for the user".to_string())
+        }
+    } else {
+        Err("You must be logged in to view your inventory".to_string())
+    }
+}
+
 #[post("/items", format = "json", data = "<new_item>")]
 fn create_item(inventory: &State<Inventory>, new_item: Json<Item>, cookies: &CookieJar) -> Result<String, String> {
     if let Some(cookie) = cookies.get("username"){
@@ -98,5 +116,5 @@ fn rocket() -> _ {
     rocket::build()
         .manage(Mutex::new(HashMap::<String, Vec::<Item>>::new()))  // in-memory storage
         .manage(Mutex::new(Vec::<User>::new()))  // in-memory storage
-        .mount("/", routes![get_items, create_item, signup, login, logout, me])
+        .mount("/", routes![get_items, get_items_by_id, create_item, signup, login, logout, me])
 }
